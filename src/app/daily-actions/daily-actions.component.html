@@ -1,0 +1,11 @@
+Daily actions available : {{citizien?.dailyActionsAvailable}}
+
+<p *ngIf="!enableActions">Come back tomorrow :)</p>
+<div>
+    <ul>
+        <li *ngFor="let action of actionsPossible; let i = index">
+            <button (click)="runDailyAction(i)" mat-flat-button color="primary"
+                [disabled]="!enableActions">{{action.name}}</button>
+        </li>
+    </ul>
+</div>

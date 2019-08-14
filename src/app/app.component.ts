@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'elife';
+  public now: string = new Date().toUTCString();
+
+
+  constructor() {
+
+  }
+
+  displayTime() {
+    // var dateString = d.get
+  }
+
 }

@@ -1,0 +1,31 @@
+<div *ngIf="afAuth.user | async as user; else showLogin">
+
+  <ul>
+    <li>Pseudo: {{ citizien?.pseudo }}</li>
+    <li>Money : {{ citizien?.money }}</li>
+    <li>Age : {{ citizien?.age }}</li>
+    <li>Country {{ citizien?.country }}</li>
+    <li>Hungry {{ citizien?.hungry }}%</li>
+    <li>Health {{ citizien?.health }}%</li>
+  </ul>
+
+
+  <button (click)="logout()">Logout</button>
+</div>
+<ng-template #showLogin>
+  <p>Please login.</p>
+  <mat-form-field>
+    <input matInput placeholder="Username" [(ngModel)]="userOptions.pseudo" name="pseudo" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select your country</mat-label>
+    <mat-select [(ngModel)]="userOptions.country" (change)="countrySelection($event.value)">
+      <mat-option *ngFor="let country of countries | async" name="country.name" [value]="country.name">
+        {{country.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br />
+  <button (click)="login()">Login with Google</button>
+</ng-template>

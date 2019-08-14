@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/services/user.service';
 import { Citizien } from 'src/interfaces/Citizien.interface';
-import { DailyActionsService } from 'src/services/daily-actions.service';
+import { ActionService } from 'src/services/action.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-daily-actions',
@@ -16,7 +18,8 @@ export class DailyActionsComponent implements OnInit {
   actionsPossible: any = [];
 
   constructor(private userService: UserService,
-    private dailyActionsService: DailyActionsService) {
+    private actionService: ActionService,
+    private toastr: ToastrService) {
 
   }
 
@@ -35,6 +38,7 @@ export class DailyActionsComponent implements OnInit {
         this.userService.resetDailyActions(this.citizien.uid, this.citizien.dailyActionsTotal);
       } else {
         this.enableActions = false;
+        this.toastr.warning("No more daily actions, come back tomorrow.", "Daily actions");
       }
     }
   }
@@ -49,21 +53,18 @@ export class DailyActionsComponent implements OnInit {
   }
 
   loadActions() {
-    this.dailyActionsService.getDailyActionsList(this.citizien.age).then((actionsData) => {
-      actionsData.forEach((action) => {
-        this.actionsPossible.push(action.data());
-      })
-    }).catch((error) => {
-      console.log('Error', error);
+    this.actionService.getActionsList('daily-actions', this.citizien).then((actions) => {
+      this.actionsPossible = actions;
     });
   }
-
 
   runDailyAction(arrayIndex) {
     if (this.citizien.dailyActionsAvailable === 0) {
       this.enableActions = false;
     } else {
-      this.dailyActionsService.runDailyAction(this.actionsPossible[arrayIndex], this.citizien);
+      this.userService.applyEffectsFromAction(this.actionsPossible[arrayIndex], this.citizien, 'daily-actions').then(() => {
+        this.toastr.success("Success", "Daily action");
+      });
     }
   }
 }

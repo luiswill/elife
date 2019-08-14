@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DailyActionsService } from './daily-actions.service';
+import { ActionService } from './action.service';
 
-describe('DailyActionsService', () => {
+describe('ActionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DailyActionsService = TestBed.get(DailyActionsService);
+    const service: ActionService = TestBed.get(ActionService);
     expect(service).toBeTruthy();
   });
 });

@@ -11,6 +11,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import { ToastrModule } from 'ngx-toastr';
+
 
 // Material modules 
 import { MatSelectModule } from '@angular/material/select';
@@ -35,6 +37,7 @@ import { EatComponent } from './eat/eat.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularWebStorageModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(), // ToastrModule added
     AngularFireModule,
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,

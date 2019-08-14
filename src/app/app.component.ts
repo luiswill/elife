@@ -15,8 +15,6 @@ export class AppComponent {
 
   }
 
-  displayTime() {
-    // var dateString = d.get
-  }
+
 
 }

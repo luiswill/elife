@@ -1,1 +1,11 @@
-<p>eat works!</p>
+<h3>Eat</h3>
+
+<p *ngIf="!enableActions">Come back later to eat again</p>
+<div>
+    <ul>
+        <li *ngFor="let action of actionsPossible; let i = index">
+            <button (click)="eat(i)" mat-flat-button color="primary"
+                [disabled]="!enableActions">{{action.name}}</button>
+        </li>
+    </ul>
+</div>

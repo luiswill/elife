@@ -1,8 +1,37 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <label>Time {{now }}</label>
-<ul>
-    <li><a href="/user">Profile</a></li>
-    <li><a href="/actions/daily">Daily actions</a></li>
-</ul>
+
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="example-toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="example-app-name">App</h1>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+            fixedTopGap="56">
+            <mat-nav-list>
+                <a mat-list-item routerLink="/user">
+                    <i class="material-icons">
+                        account_circle
+                    </i>Profile
+                </a>
+                <a mat-list-item routerLink="/actions/daily"><i class="material-icons">
+                        directions_run
+                    </i>Daily actions</a>
+                <a mat-list-item routerLink="/actions/eat"><i class="material-icons">
+                        fastfood
+                    </i>Eat</a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+
+<div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
 
 <router-outlet></router-outlet>

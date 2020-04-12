@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/services/user.service';
 import { Citizien } from 'src/interfaces/Citizien.interface';
 import { ActionService } from 'src/services/action.service';
-import { ToastrService } from 'ngx-toastr';
-
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EnergyService } from 'src/services/energy.service';
+import { Action } from 'src/interfaces/Action.interface';
+import { Energy } from '../../interfaces/Energy.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-daily-actions',
@@ -19,7 +23,8 @@ export class DailyActionsComponent implements OnInit {
 
   constructor(private userService: UserService,
     private actionService: ActionService,
-    private toastr: ToastrService) {
+    private snackBar: MatSnackBar,
+    private energyService: EnergyService) {
 
   }
 
@@ -29,6 +34,9 @@ export class DailyActionsComponent implements OnInit {
       this.loadActions();
       this.checkDailyActionsAmount();
     });
+
+
+    console.log("Day today : " + this.getDayOfYear());
   }
 
   checkDailyActionsAmount() {
@@ -38,7 +46,6 @@ export class DailyActionsComponent implements OnInit {
         this.userService.resetDailyActions(this.citizien.uid, this.citizien.dailyActionsTotal);
       } else {
         this.enableActions = false;
-        this.toastr.warning("No more daily actions, come back tomorrow.", "Daily actions");
       }
     }
   }
@@ -58,13 +65,29 @@ export class DailyActionsComponent implements OnInit {
     });
   }
 
-  runDailyAction(arrayIndex) {
-    if (this.citizien.dailyActionsAvailable === 0) {
-      this.enableActions = false;
-    } else {
-      this.userService.applyEffectsFromAction(this.actionsPossible[arrayIndex], this.citizien, 'daily-actions').then(() => {
-        this.toastr.success("Success", "Daily action");
+  runDailyAction(action : Action) {
+    if (this.energyService.hasEnoughEnergy()) {
+      this.userService.applyEffectsFromAction(action, this.citizien, 'daily-actions').then(() => {
+        this.energyService.decrementEnergy();
+        this.openSnackbar("Success : " + action.name);
       });
+    } else {
+      this.openSnackbar("Please wait for energy to refill.")
     }
+  }
+
+  getDayOfYear() {
+    var date = new Date();
+    return (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
+  }
+
+
+  openSnackbar(text : String) {
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: 2000,
+      data: {
+        html: '<p class="mat-body">' + text + '</p>'
+      }
+    });
   }
 }

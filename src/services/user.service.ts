@@ -13,21 +13,24 @@ import { firestore } from 'firebase';
 })
 export class UserService {
 
+  
   newCitizien: Citizien = {
-    age: 0,
+    age: {months: 0, years: 0},
     country: "",
-    hungry: 100,
-    health: 100,
     money: 0,
     pseudo: "",
     uid: "",
-    fitness: 100,
-    cookingSkills: 100,
-    intelligence: 100,
-    honesty: 100,
-    kindness: 100,
-    love: 100,
-    social: 100,
+    characteristics: {
+      fitness: 100,
+      creativity: 100,
+      intelligence: 100,
+      honesty: 100,
+      kindness: 100,
+      love: 100,
+      social: 100,
+      hungry: 100,
+      health: 100,
+    }, 
     dailyActionsAvailable: 2,
     dailyActionsTotal: 2,
     dailyActionsLastDay: 0,
@@ -44,21 +47,24 @@ export class UserService {
     return new Promise((resolve, reject) => {
       let userId = citizien.uid
 
+      console.log("Applying effects from action ", action);
+      
+
       let updatedCitizien = citizien;
 
       for (let characteristics in action.effects) {
         updatedCitizien[characteristics] += action.effects[characteristics];
       }
 
-      if (actionName === 'daily-actions') {
-        updatedCitizien['dailyActionsAvailable']--;
-      }
+
       if (actionName === 'eat') {
         updatedCitizien['hasEaten'] = true;
         updatedCitizien['lastEatenPeriod'] = this.convertTimeToPeriod()
       }
 
       this.afs.collection('users').doc(userId).update(updatedCitizien).then(() => {
+        console.log("UPDATED FROM ACTION");
+        
         resolve();
       }).catch((error) => {
         reject();
@@ -178,8 +184,6 @@ export class UserService {
   }
 
   isCitizienRespectingCharacteristicRequirements(citizien: Citizien, requirements: any[]) {
-
-
     if (requirements) {
       let requirementsRespected: boolean[] = []
       requirements.forEach((requirement) => {

@@ -1,0 +1,3 @@
+<div class="actionCapacity" *ngIf="energyObs | async">
+    <span *ngFor="let energyBlock of (energyObs | async).energyBar" class="actionCapacity__block" [ngClass]="energyBlock ? 'actionCapacity__block--full' :  ''"></span>
+</div>

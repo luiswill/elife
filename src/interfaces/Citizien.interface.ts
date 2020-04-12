@@ -1,18 +1,13 @@
+import { Characteristics } from './Characteristics.interface';
+import { Age } from './Age.interface';
+
 export interface Citizien {
     uid: string,
     pseudo: string,
-    age: number,
+    age: Age,
     money: number,
     country: string,
-    hungry: number,
-    health: number,
-    social: number,
-    intelligence: number,
-    cookingSkills: number,
-    fitness: number,
-    honesty: number,
-    love: number,
-    kindness: number,
+    characteristics: Characteristics,
     dailyActionsAvailable: number,
     dailyActionsTotal: number,
     dailyActionsLastDay: number,

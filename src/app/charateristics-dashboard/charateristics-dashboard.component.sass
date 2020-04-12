@@ -1,0 +1,28 @@
+.characteristic
+    flex-direction: column
+    width: 100%
+
+    & p 
+        text-align: center
+        margin: 0
+
+.mat-grid-tile .mat-figure
+    flex-direction: column !important
+    background-color: red
+
+.mat-progress-bar
+    transition: box-shadow 0.3s ease-in-out
+    transition: height box-shadow 1s ease
+
+.animateProgressBar 
+    -webkit-box-shadow: 3px 10px 13px 10px #a3b0ff
+    -moz-box-shadow: 3px 10px 13px 10px #a3b0ff
+    box-shadow: 3px 10px 13px 10px #a3b0ff
+    height: 10px
+
+    & svg
+        fill: #a3b0ff
+
+    & .mat-progress-bar-fill::after
+        background-color: #a3b0ff
+

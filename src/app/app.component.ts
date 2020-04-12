@@ -1,6 +1,7 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { UserService } from 'src/services/user.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,12 @@ import { UserService } from 'src/services/user.service';
 export class AppComponent {
   title = 'elife';
   public now: string = new Date().toUTCString();
+
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
+  close() {
+    this.sidenav.close();
+  }
 
   mobileQuery: MediaQueryList;
 

@@ -14,7 +14,7 @@ export class ActionService {
     return new Promise((resolve) => {
       let actionsFiltered = [];
 
-      this.afs.collection(actionDirectory).ref.where("age", "<=", citizien.age).get().then((actionsData) => {
+      this.afs.collection(actionDirectory).ref.where("ageAvailable", "<=", citizien.age).get().then((actionsData) => {
         actionsData.forEach((action) => {
           if (this.userService.isCitizienRespectingCharacteristicRequirements(citizien, action.data().conditions)) {
             actionsFiltered.push(action.data());

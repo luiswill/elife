@@ -1,22 +1,28 @@
-Daily actions available : {{citizien?.dailyActionsAvailable}}
 
 <p *ngIf="!enableActions">Come back tomorrow :)</p>
-<div>
-    <ul>
-        <li>
 
-        </li>
-    </ul>
-</div>
 
-<mat-list>
-    <h3 mat-subheader>Actions</h3>
-    <mat-list-item *ngFor="let action of actionsPossible; let i = index" [className]="enableActions ? '' : ''">
-        <mat-icon mat-list-icon>folder</mat-icon>
-        <h4 mat-line (click)="runDailyAction(i)">
-            {{action.name}}
-        </h4>
-        <p mat-line> Characteristics </p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-</mat-list>
+<h5 class="mat-headline">Actions</h5>
+<p class="mat-body">Daily actions available : <b>{{citizien?.dailyActionsAvailable}}</b></p>
+
+<p class="mat-small">Each action you do will affect the rest of your life.</p>
+
+<mat-grid-list cols="2" gutterSize="10" rowHeight="1:1.5">
+    <mat-grid-tile *ngFor="let action of actionsPossible; let i = index">
+        <mat-card class="mat-card action-card">
+            <img class="mat-card-image action-card-image" mat-card-image
+                [src]="action.imageUrl" alt="Photo of a Shiba Inu">
+            <mat-card-content class="mat-card-content">
+                <p>
+                    {{action.description}} 
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button class="action-card-button" mat-raised-button color="primary"
+                    (click)="runDailyAction(action)">{{action.name}}</button>
+            </mat-card-actions>
+        </mat-card>
+
+    </mat-grid-tile>
+
+</mat-grid-list>

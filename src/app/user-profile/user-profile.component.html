@@ -1,31 +1,31 @@
 <div *ngIf="afAuth.user | async as user; else showLogin">
+  <h3 class="mat-headline">Profile</h3>
 
   <ul>
     <li>Pseudo: {{ citizien?.pseudo }}</li>
-    <li>Money : {{ citizien?.money }}</li>
     <li>Age : {{ citizien?.age }}</li>
     <li>Country {{ citizien?.country }}</li>
-    <li>Hungry {{ citizien?.hungry }}</li>
-    <li>Health {{ citizien?.health }}</li>
+
+    <li>Money : {{ citizien?.money }}</li>
   </ul>
 
 
+  <h3 class="mat-headline">Characteristics</h3>
+    <p>Every daily action will influence your personality. <br/>Which will be your path ?</p>
+      <mat-grid-list cols="2" rowHeight="50">
+        <mat-grid-tile *ngFor="let characteristic of citizien?.characteristics | keyvalue">
+            <div class="characteristic">
+                <p class="mat-body">{{characteristic.key}} </p>
+                <mat-progress-bar color="accent" mode="buffer"
+                    [bufferValue]="characteristic.value"></mat-progress-bar>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
   <button (click)="logout()">Logout</button>
 </div>
-<ng-template #showLogin>
-  <p>Please login.</p>
-  <mat-form-field>
-    <input matInput placeholder="Username" [(ngModel)]="userOptions.pseudo" name="pseudo" required>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Select your country</mat-label>
-    <mat-select [(ngModel)]="userOptions.country" (change)="countrySelection($event.value)">
-      <mat-option *ngFor="let country of countries | async" name="country.name" [value]="country.name">
-        {{country.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
+<ng-template #showLogin>
   <br />
   <button (click)="login()">Login with Google</button>
 </ng-template>

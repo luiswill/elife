@@ -14,10 +14,17 @@ import { Citizien } from '../../interfaces/Citizien.interface';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 
 
+// Dialog 
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogUsernameInputComponent } from '../dialogs/dialog-username-input/dialog-username-input.component';
+import { DialogUserRegistrationData } from 'src/interfaces/DialogUserRegistrationData';
+
+
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.sass']
 })
 
 export class UserProfileComponent implements OnInit {
@@ -32,15 +39,21 @@ export class UserProfileComponent implements OnInit {
     country: "",
     uid: ""
   }
+
+
   constructor(private userService: UserService,
     public afAuth: AngularFireAuth,
-    private gameSettingsService: GameSettingsService) {
+    private gameSettingsService: GameSettingsService,
+    private dialog: MatDialog) {
   }
 
 
   ngOnInit() {
 
     this.afAuth.user.subscribe((user) => {
+
+      console.log("User : ", user);
+      
       // if connected
       if (user) {
         this.userConnected();
@@ -55,28 +68,43 @@ export class UserProfileComponent implements OnInit {
   }
 
   userNotConnected() {
-    this.countriesCollection = this.gameSettingsService.getCountries();;
+    this.countriesCollection = this.gameSettingsService.getCountries();
     this.countries = this.countriesCollection.valueChanges();
   }
 
   getUser() {
     this.userService.getCitizien().subscribe((user: Citizien) => {
-      console.log("user :", user);
+      console.log("User profile - user :", user);
       this.citizien = user;
     });
   }
 
-  login() {
+  login() : void {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then((firebaseUser) => {
       if (firebaseUser.additionalUserInfo.isNewUser) {
         this.userOptions.uid = firebaseUser.user.uid;
         console.log('user', this.userOptions);
-        this.userService.createUserInDatabase(this.userOptions);
+        
+        this.askForAnUsername().afterClosed().subscribe((data : DialogUserRegistrationData) => {
+
+          this.userOptions.pseudo = data.username;
+          this.userOptions.country = data.country;
+
+          this.userService.createUserInDatabase(this.userOptions);
+        })
+        
       }
     });
   }
   logout() {
     this.afAuth.auth.signOut();
+  }
+
+  askForAnUsername(): MatDialogRef<DialogUsernameInputComponent> {
+    return this.dialog.open(DialogUsernameInputComponent, {
+      width: '250px',
+      data: {}
+    });
   }
 
 

@@ -85,7 +85,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.getUserId().then((userId: string) => {
         console.log("User id ", userId);
-          
+
           return this.afs.collection('users').doc(userId).update(updatedCitizien).then(() => {
             console.log("Updated citizien.");
             
@@ -101,6 +101,11 @@ export class UserService {
   incrementAge(months: number) {
     let updatedCitizien = this.citizien;
     updatedCitizien.age.months += months;
+
+    if(updatedCitizien.age.months == 13) {
+      updatedCitizien.age.months = 0;
+      updatedCitizien.age.years++;
+    }
 
     console.log("Incremeting age..");
     

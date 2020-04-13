@@ -4,13 +4,13 @@
         <div class="characteristic">
             <p class="mat-body">Health</p>
             <mat-progress-bar class="health" [ngClass]="animate ? 'animateProgressBar' : ''" mode="determinate"
-                value="citizien?.characteristics.health"></mat-progress-bar>
+                [value] ="citizien.characteristics.health"></mat-progress-bar>
         </div>
     </mat-grid-tile>
     <mat-grid-tile>
         <div class="characteristic">
             <p class="mat-body">Hungry</p>
-            <mat-progress-bar mode="determinate" [ngClass]="animate ? 'animateProgressBar' : ''" value="citizien?.characteristics.hungry"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [ngClass]="animate ? 'animateProgressBar' : ''" [value]="citizien.characteristics.hungry"></mat-progress-bar>
         </div>
     </mat-grid-tile>
 </mat-grid-list>

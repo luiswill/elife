@@ -9,6 +9,7 @@ import { firestore } from 'firebase';
 import { BehaviorSubject } from 'rxjs';
 import { Age } from 'src/interfaces/Age.interface';
 import { resolve } from 'dns';
+import { Action } from 'src/interfaces/Action.interface';
 
 
 @Injectable({
@@ -50,45 +51,29 @@ export class UserService {
       
   }
 
-  applyEffectsFromAction(action, citizien: Citizien, actionName: string) {
+  applyEffectsFromAction(action: Action, citizien: Citizien) {
     return new Promise((resolve, reject) => {
-      let userId = citizien.uid
 
-      console.log("Applying effects from action ", action);
+      console.log("Action to apply ", action);
       
       let updatedCitizien = citizien;
 
-      for (let characteristics in action.effects) {
-        updatedCitizien[characteristics] += action.effects[characteristics];
+      for (let [charactersticName, characteristicValue] of Object.entries(action.effects)) {
+        updatedCitizien.characteristics[charactersticName] += characteristicValue;
       }
 
+      console.log("Updated citizien : ", updatedCitizien);
 
-      if (actionName === 'eat') {
-        updatedCitizien['hasEaten'] = true;
-        updatedCitizien['lastEatenPeriod'] = this.convertTimeToPeriod()
-      }
-
-      this.afs.collection('users').doc(userId).update(updatedCitizien).then(() => {
-        console.log("UPDATED FROM ACTION");
-        
-        resolve();
-      }).catch((error) => {
-        reject();
-        console.log('Error', error);
+      this.updateCitizien(updatedCitizien).then(() => {
+        resolve()
       });
     });
   }
 
   updateCitizien(updatedCitizien: Citizien) : Promise<void>{
-    console.log("Citiizen to update ", updatedCitizien);
-    
     return new Promise((resolve, reject) => {
       this.getUserId().then((userId: string) => {
-        console.log("User id ", userId);
-
           return this.afs.collection('users').doc(userId).update(updatedCitizien).then(() => {
-            console.log("Updated citizien.");
-            
             resolve();
           }).catch((error) => {
             reject();
@@ -113,22 +98,6 @@ export class UserService {
     this.updateCitizien(updatedCitizien);
   }
 
-  changePropertyOfCitizien(uid: string, propertyName: string, change) {
-    return new Promise((resolve) => {
-      const newValue = firestore.FieldValue.increment(change);
-
-      let key = propertyName;
-      let updatedProperty = {};
-      updatedProperty[key] = newValue;
-
-      this.afs.collection('users').doc(uid).update(updatedProperty).then(() => {
-        resolve();
-      }).catch((error) => {
-        console.log('Error while changing property : ', error);
-      });
-    });
-  }
-
   convertTimeToPeriod(): number {
     let time = new Date().getUTCHours();
     let period = 0;
@@ -143,42 +112,16 @@ export class UserService {
     return period;
   }
 
-  citizienEat(uid: string, change: number) {
-    return new Promise((resolve) => {
-      const newValue = firestore.FieldValue.increment(change);
-
-
-      let updatedProperty = {};
-      updatedProperty['hungry'] = newValue;
-      updatedProperty['hasEaten'] = true;
-
-      this.afs.collection('users').doc(uid).update(updatedProperty).then(() => {
-        resolve();
-      }).catch((error) => {
-        console.log('Error while changing property : ', error);
-      });
-    });
-  }
-
-  setPropertyOfCitizien(uid: string, propertyName: string, newValue: any) {
+  citizienEat(citizien: Citizien, action: Action) {
     return new Promise((resolve) => {
 
-      let key = propertyName;
-      let updatedProperty = {};
-      updatedProperty[key] = newValue;
+      let updatedCitizien = citizien;
 
-      this.afs.collection('users').doc(uid).update(updatedProperty).then(() => {
-        resolve();
-      });
+      updatedCitizien.hasEaten = true;
+
+      this.applyEffectsFromAction(action, citizien);
     });
   }
-
-  getTodaysDateNumber() {
-    let date = new Date();
-    return (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
-  }
-
-
 
   getUserFromFirebase() {
     return this.afAuth.user;
@@ -192,15 +135,12 @@ export class UserService {
     });
   }
 
-
   getCitizien() {
     var userId = this.local.get('userFirebaseId');
     console.log("user id ", userId);
     
     return this.afs.collection('users').doc(userId).valueChanges();
   }
-
-
 
   createUserInDatabase(userOptions) {
     this.emptyLocalStorage();
@@ -239,13 +179,5 @@ export class UserService {
     } else {
       return true;
     }
-  }
-
-
-  resetDailyActions(uid: string, actionsToFill) {
-    this.afs.collection('users').doc(uid).update({
-      dailyActionsAvailable: actionsToFill,
-      dailyActionsLastDay: this.getTodaysDateNumber()
-    });
   }
 }

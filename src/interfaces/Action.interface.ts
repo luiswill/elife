@@ -5,5 +5,5 @@ export interface Action {
     description: string,
     id: number,
     name: string,
-    effects: Characteristics
+    effects: Characteristics[]
 }

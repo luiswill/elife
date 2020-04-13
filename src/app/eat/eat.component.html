@@ -1,11 +1,26 @@
 <h3>Eat</h3>
 
 <p *ngIf="!enableActions">Come back later to eat again</p>
-<div>
-    <ul>
-        <li *ngFor="let action of actionsPossible; let i = index">
-            <button (click)="eat(i)" mat-flat-button color="primary"
-                [disabled]="!enableActions">{{action.name}}</button>
-        </li>
-    </ul>
-</div>
+<h5 class="mat-headline">Actions</h5>
+
+<p class="mat-small">Each action you do will affect the rest of your life.</p>
+
+<mat-grid-list cols="2" gutterSize="10" rowHeight="1:1.5">
+    <mat-grid-tile *ngFor="let action of actionsPossible; let i = index">
+        <mat-card class="mat-card action-card">
+            <img class="mat-card-image action-card-image" mat-card-image
+                [src]="action.imageUrl" alt="Photo of a Shiba Inu">
+            <mat-card-content class="mat-card-content">
+                <p>
+                    {{action.description}} 
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button class="action-card-button" mat-raised-button color="primary"
+                    (click)="eat(action)">{{action.name}}</button>
+            </mat-card-actions>
+        </mat-card>
+
+    </mat-grid-tile>
+
+</mat-grid-list>

@@ -4,6 +4,14 @@ import { Citizien } from 'src/interfaces/Citizien.interface';
 import { ToastrService } from 'ngx-toastr';
 import { ActionService } from 'src/services/action.service';
 
+
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { Action } from 'src/interfaces/Action.interface';
+import { Energy } from 'src/interfaces/Energy.interface';
+import { EnergyService } from 'src/services/energy.service';
+
 @Component({
   selector: 'app-eat',
   templateUrl: './eat.component.html',
@@ -15,47 +23,43 @@ export class EatComponent implements OnInit {
 
   enableActions: boolean;
 
-  constructor(private userService: UserService, private toastr: ToastrService, private actionService: ActionService) { }
+  constructor(private userService: UserService, 
+              private actionService: ActionService,
+              private energyService: EnergyService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    // this.loadCitizien().then(() => {
-    //   this.checkIfCanEat();
-    //   this.loadActions();
-    // });
+    this.loadCitizien().then(() => {
+      this.checkIfCanEat();
+      this.loadActions();
+    });
   }
 
   checkIfCanEat() {
     if (this.isNewEatPeriod()) {
       this.enableActions = true;
-      this.userService.setPropertyOfCitizien(this.citizien.uid, 'hasEaten', false);
     } else {
       this.enableActions = false;
     }
   }
 
-
-
   loadCitizien() {
-    // return new Promise((resolve) => {
-    //   this.userService.getCitizien().subscribe((citizien: Citizien) => {
-    //     this.citizien = citizien;
-    //     resolve();
-    //   });
-    // });
+    return new Promise((resolve) => {
+      this.userService.getCitizien().subscribe((citizien: Citizien) => {
+        this.citizien = citizien;
+        resolve();
+      });
+    });
   }
 
-  eat(arrayIndex) {
-    if (this.citizien.hasEaten) {
-      if (this.isNewEatPeriod()) {
-
-      } else {
-        this.toastr.warning("You have already eaten, come back during another time period.", "Eat");
-      }
-    } else {
-      this.userService.applyEffectsFromAction(this.actionsPossible[arrayIndex], this.citizien, 'eat').then(() => {
-        this.toastr.success("You have eaten.", "Eat");
-        this.enableActions = false;
+  eat(action : Action) {
+    if (this.energyService.hasEnoughEnergy()) {
+      this.userService.applyEffectsFromAction(action, this.citizien).then(() => {
+        this.energyService.decrementEnergy();
+        this.openSnackbar("Success : " + action.name);
       });
+    } else {
+      this.openSnackbar("Please wait for energy to refill.")
     }
   }
 
@@ -72,5 +76,14 @@ export class EatComponent implements OnInit {
     });
   }
 
+
+  openSnackbar(text : String) {
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: 2000,
+      data: {
+        html: '<p class="mat-body">' + text + '</p>'
+      }
+    });
+  }
 
 }

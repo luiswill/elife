@@ -19,6 +19,8 @@ export class DailyActionsComponent implements OnInit {
   citizien: Citizien;
   enableActions: boolean = true;
 
+  removeHungryFromAction: number = 10;
+
   actionsPossible: any = [];
 
   constructor(private userService: UserService,
@@ -30,12 +32,9 @@ export class DailyActionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadCitizien().then(() => {
-      console.log('citizien : ', this.citizien);
       this.loadActions();
     });
 
-
-    console.log("Day today : " + this.getDayOfYear());
   }
 
 
@@ -56,7 +55,10 @@ export class DailyActionsComponent implements OnInit {
 
   runDailyAction(action : Action) {
     if (this.energyService.hasEnoughEnergy()) {
-      this.userService.applyEffectsFromAction(action, this.citizien, 'daily-actions').then(() => {
+      let updatedCitizien = this.citizien;
+      updatedCitizien.characteristics.hungry -= this.removeHungryFromAction;
+
+      this.userService.applyEffectsFromAction(action, updatedCitizien).then(() => {
         this.energyService.decrementEnergy();
         this.openSnackbar("Success : " + action.name);
       });

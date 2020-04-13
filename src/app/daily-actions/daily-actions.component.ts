@@ -32,23 +32,12 @@ export class DailyActionsComponent implements OnInit {
     this.loadCitizien().then(() => {
       console.log('citizien : ', this.citizien);
       this.loadActions();
-      this.checkDailyActionsAmount();
     });
 
 
     console.log("Day today : " + this.getDayOfYear());
   }
 
-  checkDailyActionsAmount() {
-    if (this.citizien.dailyActionsAvailable === 0) {
-      // If it's a new day, reset daily actions
-      if (this.userService.isNewDay(this.citizien)) {
-        this.userService.resetDailyActions(this.citizien.uid, this.citizien.dailyActionsTotal);
-      } else {
-        this.enableActions = false;
-      }
-    }
-  }
 
   loadCitizien() {
     return new Promise((resolve) => {

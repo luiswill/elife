@@ -6,6 +6,9 @@ import { LocalStorageService } from 'angular-web-storage';
 
 import { Citizien } from '../interfaces/Citizien.interface';
 import { firestore } from 'firebase';
+import { BehaviorSubject } from 'rxjs';
+import { Age } from 'src/interfaces/Age.interface';
+import { resolve } from 'dns';
 
 
 @Injectable({
@@ -13,7 +16,6 @@ import { firestore } from 'firebase';
 })
 export class UserService {
 
-  
   newCitizien: Citizien = {
     age: {months: 0, years: 0},
     country: "",
@@ -30,17 +32,22 @@ export class UserService {
       social: 100,
       hungry: 100,
       health: 100,
-    }, 
-    dailyActionsAvailable: 2,
-    dailyActionsTotal: 2,
-    dailyActionsLastDay: 0,
+    },
     hasEaten: false,
     lastEatenPeriod: 0
   }
 
+  userConnected : BehaviorSubject<Citizien> = new BehaviorSubject<Citizien>(this.newCitizien);
+  citizien: Citizien;
+
   constructor(private afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public local: LocalStorageService) {
+
+      this.getCitizien().subscribe((citizien: Citizien) => {
+        this.citizien = citizien;
+      });
+      
   }
 
   applyEffectsFromAction(action, citizien: Citizien, actionName: string) {
@@ -49,7 +56,6 @@ export class UserService {
 
       console.log("Applying effects from action ", action);
       
-
       let updatedCitizien = citizien;
 
       for (let characteristics in action.effects) {
@@ -73,6 +79,34 @@ export class UserService {
     });
   }
 
+  updateCitizien(updatedCitizien: Citizien) : Promise<void>{
+    console.log("Citiizen to update ", updatedCitizien);
+    
+    return new Promise((resolve, reject) => {
+      this.getUserId().then((userId: string) => {
+        console.log("User id ", userId);
+          
+          return this.afs.collection('users').doc(userId).update(updatedCitizien).then(() => {
+            console.log("Updated citizien.");
+            
+            resolve();
+          }).catch((error) => {
+            reject();
+            console.log('Error while updating citizien', error);
+          });;
+      });
+    });
+  }
+
+  incrementAge(months: number) {
+    let updatedCitizien = this.citizien;
+    updatedCitizien.age.months += months;
+
+    console.log("Incremeting age..");
+    
+
+    this.updateCitizien(updatedCitizien);
+  }
 
   changePropertyOfCitizien(uid: string, propertyName: string, change) {
     return new Promise((resolve) => {
@@ -139,11 +173,7 @@ export class UserService {
     return (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
   }
 
-  isNewDay(citizien: Citizien) {
-    let dateToday = this.getTodaysDateNumber();
 
-    return citizien.dailyActionsLastDay != dateToday;
-  }
 
   getUserFromFirebase() {
     return this.afAuth.user;
@@ -160,8 +190,12 @@ export class UserService {
 
   getCitizien() {
     var userId = this.local.get('userFirebaseId');
+    console.log("user id ", userId);
+    
     return this.afs.collection('users').doc(userId).valueChanges();
   }
+
+
 
   createUserInDatabase(userOptions) {
     this.emptyLocalStorage();

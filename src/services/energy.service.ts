@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Energy } from 'src/interfaces/Energy.interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LifecycleService } from './lifecycle.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class EnergyService {
   private mEnergy = new BehaviorSubject<Energy>(this.startingEnergy);
 
 
-  constructor(private lifecycleService : LifecycleService) { 
+  constructor(private lifecycleService : LifecycleService,
+              private userService: UserService) { 
 
   }
 
@@ -45,6 +47,8 @@ export class EnergyService {
     newObject.currentEnergyBarIndex++;
 
     this.mEnergy.next(newObject);
+
+    this.userService.incrementAge(1);
 
     if(this.isEnergyBarIsFull()) {
       this.lifecycleService.stopLifecycle();

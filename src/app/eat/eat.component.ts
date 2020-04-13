@@ -18,10 +18,10 @@ export class EatComponent implements OnInit {
   constructor(private userService: UserService, private toastr: ToastrService, private actionService: ActionService) { }
 
   ngOnInit() {
-    this.loadCitizien().then(() => {
-      this.checkIfCanEat();
-      this.loadActions();
-    });
+    // this.loadCitizien().then(() => {
+    //   this.checkIfCanEat();
+    //   this.loadActions();
+    // });
   }
 
   checkIfCanEat() {
@@ -36,12 +36,12 @@ export class EatComponent implements OnInit {
 
 
   loadCitizien() {
-    return new Promise((resolve) => {
-      this.userService.getCitizien().subscribe((citizien: Citizien) => {
-        this.citizien = citizien;
-        resolve();
-      });
-    });
+    // return new Promise((resolve) => {
+    //   this.userService.getCitizien().subscribe((citizien: Citizien) => {
+    //     this.citizien = citizien;
+    //     resolve();
+    //   });
+    // });
   }
 
   eat(arrayIndex) {

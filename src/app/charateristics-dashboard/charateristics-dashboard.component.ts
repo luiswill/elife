@@ -9,12 +9,11 @@ import { LifecycleService } from 'src/services/lifecycle.service';
 @Component({
   selector: 'app-charateristics-dashboard',
   templateUrl: './charateristics-dashboard.component.html',
-  styleUrls: ['./charateristics-dashboard.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./charateristics-dashboard.component.sass']
 })
 export class CharateristicsDashboardComponent implements OnInit {
   animate : boolean;
-  user : Citizien;
+  citizien : Citizien;
   mEnergy : Observable<Energy>;
   
   constructor(private userService: UserService,
@@ -22,13 +21,14 @@ export class CharateristicsDashboardComponent implements OnInit {
               private lifecycleService: LifecycleService) { }
 
   ngOnInit(): void {
-    this.loadUserCharacteristics();
+    this.getUser();
     this.animateProgressBar();
   }
 
-  loadUserCharacteristics(): void {
-    this.userService.getCitizien().subscribe((user : Citizien) => {
-      this.user = user;
+  getUser() {
+    this.userService.getCitizien().subscribe((user: Citizien) => {
+      console.log("Characteristics Dashboard", user);
+      this.citizien = user;
     });
   }
 
@@ -38,6 +38,5 @@ export class CharateristicsDashboardComponent implements OnInit {
 
   animateProgressBar() : void {
     this.mEnergy = this.energyService.getEnergy();
-
   }
 }

@@ -52,7 +52,7 @@ export class UserProfileComponent implements OnInit {
 
     this.afAuth.user.subscribe((user) => {
 
-      console.log("User : ", user);
+      console.log("afAuth : ", user);
       
       // if connected
       if (user) {

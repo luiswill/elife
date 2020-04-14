@@ -16,7 +16,7 @@
     <mat-grid-tile *ngFor="let characteristic of citizien?.characteristics | keyvalue">
       <div class="characteristic">
         <p class="mat-body">{{characteristic.key}} </p>
-        <mat-progress-bar color="accent" mode="buffer" [bufferValue]="characteristic.value"></mat-progress-bar>
+        <mat-progress-bar color="primary" mode="determinate" [value]="characteristic.value"></mat-progress-bar>
       </div>
     </mat-grid-tile>
   </mat-grid-list>

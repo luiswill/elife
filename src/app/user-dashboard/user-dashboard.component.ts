@@ -19,6 +19,15 @@ export class UserDashboardComponent implements OnInit {
 
     this.isConnected = this.userService.isUserConnected();
 
+    this.userService.getUserFromFirebase().subscribe((user) => {
+      console.log("User dashboard : ", user);
+
+      if(user) {
+        this.isConnected = true;
+      }
+      
+    });
+
 
   }
 }

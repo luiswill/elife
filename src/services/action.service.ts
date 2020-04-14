@@ -19,8 +19,6 @@ export class ActionService {
 
       this.afs.collection(actionDirectory).ref.where("ageAvailable", "<=", citizien.age.years).get().then((actionsData) => {
         actionsData.forEach((action) => {
-          console.log("action to filter: ", action.data());
-
           
           if (this.userService.isCitizienRespectingCharacteristicRequirements(citizien, action.data().conditions)) {
             actionsFiltered.push(action.data());

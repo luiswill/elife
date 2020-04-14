@@ -16,7 +16,6 @@ import { AngularFirestoreCollection } from '@angular/fire/firestore';
 
 // Dialog 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { DialogUsernameInputComponent } from '../dialogs/dialog-username-input/dialog-username-input.component';
 import { DialogUserRegistrationData } from 'src/interfaces/DialogUserRegistrationData';
 
 
@@ -39,8 +38,7 @@ export class UserProfileComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-    public afAuth: AngularFireAuth,
-    private dialog: MatDialog) {
+    public afAuth: AngularFireAuth) {
 
   }
 
@@ -105,11 +103,5 @@ export class UserProfileComponent implements OnInit {
     this.userService.emptyLocalStorage();
   }
 
-  askForAnUsername(): MatDialogRef<DialogUsernameInputComponent> {
-    return this.dialog.open(DialogUsernameInputComponent, {
-      width: '250px',
-      data: {}
-    });
-  }
 
 }

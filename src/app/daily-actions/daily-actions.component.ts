@@ -43,6 +43,10 @@ export class DailyActionsComponent implements OnInit {
     return new Promise((resolve) => {
       this.userService.getCitizien().subscribe((citizien: Citizien) => {
         this.citizien = citizien;
+
+        if(this.citizien.age.months == 0) {
+          this.loadActions();
+        }
         resolve();
       });
     });
@@ -62,6 +66,7 @@ export class DailyActionsComponent implements OnInit {
       this.userService.applyEffectsFromAction(action, updatedCitizien).then(() => {
         this.energyService.decrementEnergy();
         this.openSnackbar("Success : " + action.name);
+        
       });
     } else {
       this.openSnackbar("Please wait for energy to refill.")

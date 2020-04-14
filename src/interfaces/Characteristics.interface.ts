@@ -6,7 +6,7 @@ export interface Characteristics {
     social?: number,
     creativity?: number,
     intelligence?: number,
-    cookingSkills?: number,
+    cooking?: number,
     money: number,
     hungry: number,
     health: number

@@ -30,7 +30,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DialogUsernameInputComponent } from './dialogs/dialog-username-input/dialog-username-input.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule, MatCard } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -41,6 +40,7 @@ import { LifecycleComponent } from './lifecycle/lifecycle.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { EnergyBarComponent } from './energy-bar/energy-bar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { DialogLevelComponent } from './dialogs/dialog-level.component';
 
 
 
@@ -51,12 +51,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     UserProfileComponent,
     DailyActionsComponent,
     EatComponent,
-    DialogUsernameInputComponent,
     SnackbarComponent,
     CharateristicsDashboardComponent,
     LifecycleComponent,
     UserDashboardComponent,
-    EnergyBarComponent
+    EnergyBarComponent,
+    DialogLevelComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

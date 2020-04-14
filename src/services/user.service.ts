@@ -10,13 +10,14 @@ import { BehaviorSubject } from 'rxjs';
 import { Age } from 'src/interfaces/Age.interface';
 import { resolve } from 'dns';
 import { Action } from 'src/interfaces/Action.interface';
+import { DialogLevelComponent } from 'src/app/dialogs/dialog-level.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   newCitizien: Citizien = {
     age: {months: 0, years: 0},
     country: "",
@@ -30,7 +31,7 @@ export class UserService {
       kindness: 50,
       love: 50,
       social: 50,
-      cookingSkills: 50,
+      cooking: 50,
       hungry: 100,
       health: 100,
       money: 0
@@ -42,11 +43,13 @@ export class UserService {
 
   constructor(private afs: AngularFirestore,
     public afAuth: AngularFireAuth,
-    public local: LocalStorageService) {
+    public local: LocalStorageService,
+    private dialog: MatDialog) {
 
       if(this.isUserConnected()) {
         this.getCitizien().subscribe((citizien: Citizien) => {
           this.citizien = citizien;
+
         });
       }
   }
@@ -88,11 +91,34 @@ export class UserService {
     updatedCitizien.age.months += months;
 
     if(updatedCitizien.age.months == 13) {
+      this.nextLevel();
       updatedCitizien.age.months = 0;
       updatedCitizien.age.years++;
-    }    
+    }
 
     this.updateCitizien(updatedCitizien);
+  }
+
+  nextLevel () : void {
+    let unlockedLevels : string[] = [];
+    this.getActionsUnlocked().then((actions) =>{
+
+      actions.forEach((action) => {
+        unlockedLevels.push(action.data()['name']);        
+      });
+      
+
+      this.dialog.open(DialogLevelComponent, {
+        data: {
+          unlocked: unlockedLevels
+        }
+      });
+    });
+    
+  }
+
+  getActionsUnlocked() {
+    return this.afs.collection("daily-actions").ref.where("ageAvailable", "==", this.citizien.age.years + 1).get();
   }
 
   convertTimeToPeriod(): number {

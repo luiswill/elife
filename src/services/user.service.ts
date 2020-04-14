@@ -24,13 +24,13 @@ export class UserService {
     pseudo: "",
     uid: "",
     characteristics: {
-      fitness: 100,
-      creativity: 100,
-      intelligence: 100,
-      honesty: 100,
-      kindness: 100,
-      love: 100,
-      social: 100,
+      fitness: 50,
+      creativity: 50,
+      intelligence: 50,
+      honesty: 50,
+      kindness: 50,
+      love: 50,
+      social: 50,
       hungry: 100,
       health: 100,
     },
@@ -167,11 +167,11 @@ export class UserService {
       let requirementsRespected: boolean[] = []
       requirements.forEach((requirement) => {
         if (requirement.operand === '>') {
-          requirementsRespected.push(citizien[requirement.propertyName] > requirement.value)
+          requirementsRespected.push(citizien.characteristics[requirement.propertyName] > requirement.value)
         } else if (requirement.operand === '<') {
-          requirementsRespected.push(citizien[requirement.propertyName] < requirement.value)
+          requirementsRespected.push(citizien.characteristics[requirement.propertyName] < requirement.value)
         } else if (requirement.operand === '==') {
-          requirementsRespected.push(citizien[requirement.propertyName] == requirement.value)
+          requirementsRespected.push(citizien.characteristics[requirement.propertyName] == requirement.value)
         }
       });
 

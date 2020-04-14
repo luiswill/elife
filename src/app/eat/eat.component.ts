@@ -30,17 +30,8 @@ export class EatComponent implements OnInit {
 
   ngOnInit() {
     this.loadCitizien().then(() => {
-      this.checkIfCanEat();
       this.loadActions();
     });
-  }
-
-  checkIfCanEat() {
-    if (this.isNewEatPeriod()) {
-      this.enableActions = true;
-    } else {
-      this.enableActions = false;
-    }
   }
 
   loadCitizien() {
@@ -63,12 +54,6 @@ export class EatComponent implements OnInit {
     }
   }
 
-  isNewEatPeriod() {
-    let lastPeriodEaten: number = this.citizien.lastEatenPeriod;
-    let currentEatPeriod: number = this.userService.convertTimeToPeriod();
-
-    return currentEatPeriod !== lastPeriodEaten
-  }
 
   loadActions() {
     this.actionService.getActionsList('food', this.citizien).then((actions) => {

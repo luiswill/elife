@@ -31,11 +31,10 @@ export class UserService {
       kindness: 50,
       love: 50,
       social: 50,
+      cookingSkills: 50,
       hungry: 100,
-      health: 100,
+      health: 100
     },
-    hasEaten: false,
-    lastEatenPeriod: 0
   }
 
   userConnected : BehaviorSubject<Citizien> = new BehaviorSubject<Citizien>(this.newCitizien);
@@ -90,10 +89,7 @@ export class UserService {
     if(updatedCitizien.age.months == 13) {
       updatedCitizien.age.months = 0;
       updatedCitizien.age.years++;
-    }
-
-    console.log("Incremeting age..");
-    
+    }    
 
     this.updateCitizien(updatedCitizien);
   }
@@ -111,18 +107,7 @@ export class UserService {
     }
     return period;
   }
-
-  citizienEat(citizien: Citizien, action: Action) {
-    return new Promise((resolve) => {
-
-      let updatedCitizien = citizien;
-
-      updatedCitizien.hasEaten = true;
-
-      this.applyEffectsFromAction(action, citizien);
-    });
-  }
-
+  
   getUserFromFirebase() {
     return this.afAuth.user;
   }

@@ -8,6 +8,4 @@ export interface Citizien{
     money: number,
     country: string,
     characteristics: Characteristics,
-    hasEaten: boolean,
-    lastEatenPeriod: number
 }

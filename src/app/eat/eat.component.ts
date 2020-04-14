@@ -29,9 +29,11 @@ export class EatComponent implements OnInit {
               private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.loadCitizien().then(() => {
-      this.loadActions();
-    });
+    if(this.userService.isUserConnected()) {
+      this.loadCitizien().then(() => {
+        this.loadActions();
+      });
+    }
   }
 
   loadCitizien() {

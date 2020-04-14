@@ -31,9 +31,6 @@ export class UserProfileComponent implements OnInit {
   user: User;
   citizien: Citizien;
 
-  private countriesCollection: AngularFirestoreCollection<Country>;
-  countries: Observable<Country[]>;
-
   userOptions = {
     pseudo: "",
     country: "",
@@ -43,33 +40,28 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private userService: UserService,
     public afAuth: AngularFireAuth,
-    private gameSettingsService: GameSettingsService,
     private dialog: MatDialog) {
+
   }
 
 
   ngOnInit() {
-
-    this.afAuth.user.subscribe((user) => {
-
-      console.log("afAuth : ", user);
-      
-      // if connected
-      if (user) {
+    if(this.userService.isUserConnected()){
         this.userConnected();
+        console.log("Connected");
       } else {
         this.userNotConnected();
+        this.userService.emptyLocalStorage();
       }
-    });
   }
 
   userConnected() {
     this.getUser();
+    this.userService.setLocalStorage();
   }
 
   userNotConnected() {
-    this.countriesCollection = this.gameSettingsService.getCountries();
-    this.countries = this.countriesCollection.valueChanges();
+    this.userService.emptyLocalStorage();
   }
 
   getUser() {
@@ -83,21 +75,34 @@ export class UserProfileComponent implements OnInit {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then((firebaseUser) => {
       if (firebaseUser.additionalUserInfo.isNewUser) {
         this.userOptions.uid = firebaseUser.user.uid;
-        console.log('user', this.userOptions);
-        
-        this.askForAnUsername().afterClosed().subscribe((data : DialogUserRegistrationData) => {
+        console.log('user', this.userOptions)
 
-          this.userOptions.pseudo = data.username;
-          this.userOptions.country = data.country;
 
-          this.userService.createUserInDatabase(this.userOptions);
-        })
-        
+          this.userService.createUserInDatabase(this.userOptions).then(() => {
+            this.getUser();
+          });
       }
     });
   }
+
+  loginFacebook () {
+    this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider()).then((firebaseUser) => {
+      if (firebaseUser.additionalUserInfo.isNewUser) {
+        this.userOptions.uid = firebaseUser.user.uid;
+        console.log('user', this.userOptions)
+
+
+          this.userService.createUserInDatabase(this.userOptions).then(() => {
+            this.getUser();
+          });
+      }
+    });
+  }
+
+
   logout() {
     this.afAuth.auth.signOut();
+    this.userService.emptyLocalStorage();
   }
 
   askForAnUsername(): MatDialogRef<DialogUsernameInputComponent> {
@@ -105,11 +110,6 @@ export class UserProfileComponent implements OnInit {
       width: '250px',
       data: {}
     });
-  }
-
-
-  countrySelection(country) {
-    this.userOptions.country = country
   }
 
 }

@@ -20,7 +20,6 @@ export class UserService {
   newCitizien: Citizien = {
     age: {months: 0, years: 0},
     country: "",
-    money: 0,
     pseudo: "",
     uid: "",
     characteristics: {
@@ -33,7 +32,8 @@ export class UserService {
       social: 50,
       cookingSkills: 50,
       hungry: 100,
-      health: 100
+      health: 100,
+      money: 0
     },
   }
 
@@ -44,10 +44,11 @@ export class UserService {
     public afAuth: AngularFireAuth,
     public local: LocalStorageService) {
 
-      this.getCitizien().subscribe((citizien: Citizien) => {
-        this.citizien = citizien;
-      });
-      
+      if(this.isUserConnected()) {
+        this.getCitizien().subscribe((citizien: Citizien) => {
+          this.citizien = citizien;
+        });
+      }
   }
 
   applyEffectsFromAction(action: Action, citizien: Citizien) {
@@ -107,7 +108,7 @@ export class UserService {
     }
     return period;
   }
-  
+
   getUserFromFirebase() {
     return this.afAuth.user;
   }
@@ -120,10 +121,15 @@ export class UserService {
     });
   }
 
+
+  isUserConnected() : boolean{
+    return this.local.get('userFirebaseId');
+  }
+
   getCitizien() {
     var userId = this.local.get('userFirebaseId');
     console.log("user id ", userId);
-    
+
     return this.afs.collection('users').doc(userId).valueChanges();
   }
 
@@ -134,7 +140,7 @@ export class UserService {
     this.newCitizien.country = userOptions.country
 
     this.local.set('userFirebaseId', userOptions.uid);
-    this.afs.collection('users').doc(userOptions.uid).set(this.newCitizien);
+    return this.afs.collection('users').doc(userOptions.uid).set(this.newCitizien);
   }
 
   emptyLocalStorage() {
@@ -142,6 +148,11 @@ export class UserService {
     this.local.remove('userFirebaseId');
   }
 
+  setLocalStorage() {
+    this.getUserId().then((userId) => {
+      this.local.set('userFirebaseId',userId);
+    });
+  }
 
   isTrue(element) {
     return element;

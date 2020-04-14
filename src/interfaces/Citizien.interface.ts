@@ -5,7 +5,6 @@ export interface Citizien{
     uid: string,
     pseudo: string,
     age: Age,
-    money: number,
     country: string,
     characteristics: Characteristics,
 }

@@ -1,13 +1,18 @@
-<p>Enter a username for the game.</p>
-<mat-form-field>
-    <mat-label>Country</mat-label>
-    <select matNativeControl required [(ngModel)]="data.country">
-      <option value="france">France</option>
-      <option value="germany">Germany</option>
-    </select>
-  </mat-form-field>
 
-<mat-form-field>
-    <input type="text" name="username" matInput [(ngModel)]="data.username"/>
-</mat-form-field>
-<button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+<p class="body-1">Country</p>
+  <select [(ngModel)]="data.country" name="car">
+    <option value="france" selected>France</option>
+    <option value="germany">Germany</option>
+  </select>
+  
+
+  <br/>
+  <p class="body-1">Enter a username for the game.</p>
+
+  <input type="text" name="username" matInput [(ngModel)]="data.username" />
+
+  <br/>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial matDialogClose>Ok</button>
+</div>

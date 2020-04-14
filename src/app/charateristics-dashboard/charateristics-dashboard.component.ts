@@ -17,8 +17,7 @@ export class CharateristicsDashboardComponent implements OnInit {
   mEnergy : Observable<Energy>;
   
   constructor(private userService: UserService,
-              public energyService: EnergyService,
-              private lifecycleService: LifecycleService) { }
+              public energyService: EnergyService) { }
 
   ngOnInit(): void {
     this.getUser();

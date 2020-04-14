@@ -40,6 +40,7 @@ import { CharateristicsDashboardComponent } from './charateristics-dashboard/cha
 import { LifecycleComponent } from './lifecycle/lifecycle.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { EnergyBarComponent } from './energy-bar/energy-bar.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -79,6 +80,7 @@ import { EnergyBarComponent } from './energy-bar/energy-bar.component';
     MatSidenavModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule, 
     MatToolbarModule,
     FormsModule
 

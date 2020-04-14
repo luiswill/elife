@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "e-life-a30f2"
+  },
+  "targets": {
+    "e-life-a30f2": {
+      "hosting": {
+        "elife": [
+          "e-life-a30f2"
+        ]
+      }
+    }
   }
 }

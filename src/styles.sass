@@ -6,11 +6,14 @@ $base-color: #27ae60
   padding: 10px
 
 .action-card
+  text-align: center
 
   &-image
     background-size: cover
-    width: 100%
+    width: 70% !important
 
+    &:first-child
+      margin-top: 0px !important
 
 *
   font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif
@@ -22,10 +25,4 @@ $base-color: #27ae60
 .mat-progress-bar.mat-accent .mat-progress-bar-buffer
     background-color: $base-color
     
-
-.mat-card-image
-  width: 70% !important
-
-.mat-card-image:first-child
-  margin-top: 0px !important
 

@@ -26,15 +26,16 @@ export class DailyActionsComponent implements OnInit {
   constructor(private userService: UserService,
     private actionService: ActionService,
     private snackBar: MatSnackBar,
-    private energyService: EnergyService) {
+    private energyService: EnergyService,) {
 
   }
 
   ngOnInit() {
-    this.loadCitizien().then(() => {
-      this.loadActions();
-    });
-
+    if(this.userService.isUserConnected()) {
+      this.loadCitizien().then(() => {
+        this.loadActions();
+      });
+    }
   }
 
 

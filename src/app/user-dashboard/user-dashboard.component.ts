@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/services/user.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -8,12 +9,16 @@ import { UserService } from 'src/services/user.service';
 })
 export class UserDashboardComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  isConnected: boolean;
+
+
+  constructor(private userService: UserService,
+              public afAuth: AngularFireAuth) { }
 
   ngOnInit(): void {
-    this.userService.getUserId().then((id) => {
-      console.log("Id ", id);
-      
-    });
+
+    this.isConnected = this.userService.isUserConnected();
+
+
   }
 }

@@ -1,10 +1,10 @@
-<div>
+<div *ngIf="isConnected">
     <app-lifecycle></app-lifecycle>
     <app-energy-bar></app-energy-bar>
     <app-charateristics-dashboard></app-charateristics-dashboard>
 </div>
 
 
-<ng-template #showLogin>
+<ng-template *ngIf="!isConnected">
     <p>Please go to the Profile page and Log in to unlock full functionalities</p>>
   </ng-template>

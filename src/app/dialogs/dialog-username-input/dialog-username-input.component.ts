@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogUserRegistrationData } from 'src/interfaces/DialogUserRegistrationData';
 
@@ -9,9 +9,10 @@ import { DialogUserRegistrationData } from 'src/interfaces/DialogUserRegistratio
 })
 export class DialogUsernameInputComponent implements OnInit {
 
+
   constructor(
     public dialogRef: MatDialogRef<DialogUsernameInputComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogUserRegistrationData) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogUserRegistrationData, private ngZone: NgZone) {}
 
   
   ngOnInit(): void {
@@ -20,7 +21,9 @@ export class DialogUsernameInputComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.ngZone.run(() => {
+      this.dialogRef.close();
+    });
   }
 
 }

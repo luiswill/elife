@@ -7,21 +7,19 @@
     <mat-card *ngFor="let action of actionsPossible; let i = index" class="mat-card action-card">
         <img class="mat-card-image action-card-image" mat-card-image [src]="action.imageUrl" alt="Photo of a Shiba Inu">
         <mat-card-content class="mat-card-content">
-            <div>
+            <div class="healthIcons">
                 <img class="flaticon" *ngFor="let i of calculateNumberHealth(action.effects.health)"
                     src="assets/apple.svg" alt="Apple" />
             </div>
-            <div>
+            <div class="hungryIcons">
                 <img class="flaticon" *ngFor="let i of calculateNumberHungry(action.effects.hungry)"
                 src="assets/energy-bar.svg" alt="Energy Bar" />
             </div>
-            <p>
-                {{action.description}}
-            </p>
+
         </mat-card-content>
         <mat-card-actions>
             <button class="action-card-button" mat-raised-button color="primary"
-                (click)="runDailyAction(action)">{{action.name}}</button>
+                (click)="eat(action)">{{action.name}}</button>
         </mat-card-actions>
     </mat-card>
 </div>

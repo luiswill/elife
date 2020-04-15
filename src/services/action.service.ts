@@ -19,9 +19,13 @@ export class ActionService {
 
       this.afs.collection(actionDirectory).ref.where("ageAvailable", "<=", citizien.age.years).get().then((actionsData) => {
         actionsData.forEach((action) => {
+
           
           if (this.userService.isCitizienRespectingCharacteristicRequirements(citizien, action.data().conditions)) {
-            actionsFiltered.push(action.data());
+            
+            if(action.data().ageFinished > citizien.age.years) {
+              actionsFiltered.push(action.data());
+            }
           }
         })
 

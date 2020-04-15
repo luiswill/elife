@@ -117,6 +117,10 @@ export class UserService {
     
   }
 
+  getActionsLocked() {
+    return this.afs.collection("daily-actions").ref.where("ageFinished", "==", this.citizien.age.years).get();
+  }
+
   getActionsUnlocked() {
     return this.afs.collection("daily-actions").ref.where("ageAvailable", "==", this.citizien.age.years + 1).get();
   }

@@ -36,6 +36,24 @@ export class EatComponent implements OnInit {
     }
   }
 
+
+  calculateNumberHealth(healthValue : number ) : number[] {
+    let res = [];
+    if(healthValue <= 0.5) {
+      res.push(1);
+    } 
+    
+    if(healthValue > 0.5) {
+      res.push(1);
+    }
+
+    if(healthValue > 1) {
+      res.push(1);
+    }
+
+    return res;
+  }
+
   loadCitizien() {
     return new Promise((resolve) => {
       this.userService.getCitizien().subscribe((citizien: Citizien) => {

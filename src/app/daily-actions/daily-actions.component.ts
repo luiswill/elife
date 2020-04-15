@@ -87,4 +87,14 @@ export class DailyActionsComponent implements OnInit {
       }
     });
   }
+
+
+  isNegative(actionValue : number ) : boolean {
+    return actionValue < 0;
+  }
+
+  validEffect(effectName : string) : boolean {
+    return ['intelligence', 'fitness', 'creativity', 'social', 'health', ].includes(effectName);
+  }
+
 }

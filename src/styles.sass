@@ -8,16 +8,14 @@ $base-color: #27ae60
 .action-card
   text-align: center
 
-  &-image
-    background-size: cover
-    width: 70% !important
-
-    &:first-child
-      margin-top: 0px !important
-
 *
   font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif
-    
+  
+
+.flaticon
+    width: 20px
+    height: 20px
+    margin-right: 10px
 
 .clock .mat-progress-bar-fill::after
   background-color: $base-color
@@ -26,3 +24,86 @@ $base-color: #27ae60
     background-color: $base-color
     
 
+.characterTraits
+    display: flex
+    flex-direction: row
+    justify-content: space-evenly
+
+    & p
+        margin-right: 10px 
+
+
+.containerActions
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: center
+
+    .mat-card-image
+        width: 80px
+
+    & > .mat-card
+        flex: 1 1 30%
+        width: 40%
+        margin-bottom: 30px
+
+    & .mat-card:nth-child(2n) 
+        margin-left: 10px
+    
+.colorChange     
+    font-weight: bold
+    -webkit-animation: color-change 3s infinite
+    -moz-animation: color-change 3s infinite
+    -o-animation: color-change 3s infinite
+    -ms-animation: color-change 3s infinite
+    animation: color-change 3s infinite
+
+@-webkit-keyframes color-change
+  0%
+    color: red
+
+  50%
+    color: blue
+
+  100%
+    color: red
+
+@-moz-keyframes color-change
+  0%
+    color: red
+
+  50%
+    color: blue
+
+  100%
+    color: red
+
+@-ms-keyframes color-change
+  0%
+    color: red
+
+  50%
+    color: blue
+
+  100%
+    color: red
+
+@-o-keyframes color-change
+  0%
+    color: red
+
+  50%
+    color: blue
+
+  100%
+    color: red
+
+@keyframes color-change
+  0%
+    color: red
+
+  50%
+    color: blue
+
+  100%
+    color: red

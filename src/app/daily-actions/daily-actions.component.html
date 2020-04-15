@@ -1,27 +1,43 @@
-
 <p *ngIf="!enableActions">Come back tomorrow :)</p>
 
 
 <h5 class="mat-headline">Actions</h5>
+<div class="characterTraits">
+    <p><span class="actionEffect actionEffect--creativity"></span>Creativity</p>
+    <p><span class="actionEffect actionEffect--intelligence"></span>Intelligence</p>
 
-<p class="mat-small">Each action you do will affect the rest of your life.</p>
+</div>
+<div class="characterTraits">
+    <p><span class="actionEffect actionEffect--fitness"></span>Fitness</p>
+    <p><span class="actionEffect actionEffect--social"></span>Social</p>
+    <p><span class="actionEffect actionEffect--health"></span>Health</p>
+</div>
+<div>
+    <p class="body-1">Each color represents a character trait which will affect more or less your unique personality.
+    </p>
+    <p class="body-1">Will you be a hard-working Elon Musk, philantrophist Melinda Gates or just <span class="colorChange">you</span> ? 🤔</p>
+</div>
+<div class="containerActions">
+    <mat-card *ngFor="let action of actionsPossible; let i = index" class="mat-card action-card">
+        <img class="mat-card-image action-card-image" mat-card-image [src]="action.imageUrl" alt="Photo of a Shiba Inu">
+        <mat-card-content class="mat-card-content">
 
-<mat-grid-list cols="2" gutterSize="10" rowHeight="1:1.5">
-    <mat-grid-tile *ngFor="let action of actionsPossible; let i = index">
-        <mat-card class="mat-card action-card">
-            <img class="mat-card-image action-card-image" mat-card-image
-                [src]="action.imageUrl" alt="Photo of a Shiba Inu">
-            <mat-card-content class="mat-card-content">
-                <p>
-                    {{action.description}} 
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button class="action-card-button" mat-raised-button color="primary"
-                    (click)="runDailyAction(action)">{{action.name}}</button>
-            </mat-card-actions>
-        </mat-card>
 
-    </mat-grid-tile>
+            <span *ngFor="let actionEffect of action.effects | keyvalue">
+                <span *ngIf="validEffect(actionEffect.key)"
+                    [className]="'actionEffect' + ' actionEffect--' + actionEffect.key" [ngClass]="{
+                        'actionEffect--negative' : isNegative(actionEffect.value)
+                        }">
 
-</mat-grid-list>
+                </span>
+            </span>
+            <p>
+                {{action.description}}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="action-card-button" mat-raised-button color="primary"
+                (click)="runDailyAction(action)">{{action.name}}</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

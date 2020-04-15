@@ -1,26 +1,27 @@
-<h3>Eat</h3>
-
-<p *ngIf="!enableActions">Come back later to eat again</p>
-<h5 class="mat-headline">Actions</h5>
-
-<p class="mat-small">Each action you do will affect the rest of your life.</p>
-
-<mat-grid-list cols="2" gutterSize="10" rowHeight="1:1.5">
-    <mat-grid-tile *ngFor="let action of actionsPossible; let i = index">
-        <mat-card class="mat-card action-card">
-            <img class="mat-card-image action-card-image" mat-card-image
-                [src]="action.imageUrl" alt="Photo of a Shiba Inu">
-            <mat-card-content class="mat-card-content">
-                <p>
-                    {{action.description}} 
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button class="action-card-button" mat-raised-button color="primary"
-                    (click)="eat(action)">{{action.name}}</button>
-            </mat-card-actions>
-        </mat-card>
-
-    </mat-grid-tile>
-
-</mat-grid-list>
+<h5 class="mat-headline">Eat</h5>
+<div>
+    <p><img class="flaticon" src="assets/apple.svg" alt="Apple" /> represents how <span style="font-weight: bold">healthy</span> is the product.</p>
+    <p><img class="flaticon" src="assets/energy-bar.svg" alt="Energy bar" /> represents how much <span style="font-weight: bold">energy</span> it will bring to you.</p>
+</div>
+<div class="containerActions">
+    <mat-card *ngFor="let action of actionsPossible; let i = index" class="mat-card action-card">
+        <img class="mat-card-image action-card-image" mat-card-image [src]="action.imageUrl" alt="Photo of a Shiba Inu">
+        <mat-card-content class="mat-card-content">
+            <div>
+                <img class="flaticon" *ngFor="let i of calculateNumberHealth(action.effects.health)"
+                    src="assets/apple.svg" alt="Apple" />
+            </div>
+            <div>
+                <img class="flaticon" *ngFor="let i of calculateNumberHungry(action.effects.hungry)"
+                src="assets/energy-bar.svg" alt="Energy Bar" />
+            </div>
+            <p>
+                {{action.description}}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="action-card-button" mat-raised-button color="primary"
+                (click)="runDailyAction(action)">{{action.name}}</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

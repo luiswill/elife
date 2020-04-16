@@ -41,6 +41,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { EnergyBarComponent } from './energy-bar/energy-bar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DialogLevelComponent } from './dialogs/dialog-level.component';
+import { AboutComponent } from './about/about.component';
 
 
 
@@ -56,7 +57,8 @@ import { DialogLevelComponent } from './dialogs/dialog-level.component';
     LifecycleComponent,
     UserDashboardComponent,
     EnergyBarComponent,
-    DialogLevelComponent
+    DialogLevelComponent,
+    AboutComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

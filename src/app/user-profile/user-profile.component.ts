@@ -1,23 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { Observable } from 'rxjs';
 
 // Services
 import { UserService } from 'src/services/user.service';
-import { GameSettingsService } from 'src/services/game-settings.service';
 import { User } from 'firebase';
 
 //Interfaces
-import { Country } from '../../interfaces/Country.interface';
 import { Citizien } from '../../interfaces/Citizien.interface';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
-
-
-// Dialog 
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { DialogUserRegistrationData } from 'src/interfaces/DialogUserRegistrationData';
-
 
 
 @Component({

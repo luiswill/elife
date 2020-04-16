@@ -12,10 +12,16 @@
     <p><span class="actionEffect actionEffect--social"></span>Social</p>
     <p><span class="actionEffect actionEffect--health"></span>Health</p>
 </div>
+
+<div class="characterTraits characterTraits--presentation">
+    <p><span class="actionEffect"></span>Trait increasing</p>
+    <p><span class="actionEffect actionEffect--negative"></span>Trait decreasing</p>
+</div>
 <div>
     <p class="body-1">Each color represents a character trait which will affect more or less your unique personality.
     </p>
-    <p class="body-1">Will you be a hard-working Elon Musk, philantrophist Melinda Gates or just <span class="colorChange">you</span> ? 🤔</p>
+    <p class="body-1">Will you be a hard-working Elon Musk, philantrophist Melinda Gates or just <span
+            class="colorChange">you</span> ? 🤔</p>
 </div>
 <div class="containerActions">
     <mat-card *ngFor="let action of actionsPossible; let i = index" class="mat-card action-card">
@@ -31,6 +37,9 @@
 
                 </span>
             </span>
+            <div>
+                <span *ngIf="action.effects.money" class="actionEffectPrice">Money : <span>{{action.effects.money}} €</span></span>
+            </div>
             <p>
                 {{action.description}}
             </p>

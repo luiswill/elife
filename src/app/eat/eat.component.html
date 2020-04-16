@@ -15,7 +15,9 @@
                 <img class="flaticon" *ngFor="let i of calculateNumberHungry(action.effects.hungry)"
                 src="assets/energy-bar.svg" alt="Energy Bar" />
             </div>
-
+            <div>
+                <span *ngIf="action.effects.money" class="actionEffectPrice">Money : <span>{{action.effects.money}} € </span></span>
+            </div>
         </mat-card-content>
         <mat-card-actions>
             <button class="action-card-button" mat-raised-button color="primary"

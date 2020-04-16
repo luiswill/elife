@@ -38,16 +38,13 @@ export class EatComponent implements OnInit {
 
 
   calculateNumberHealth(healthValue : number ) : number[] {
-    let res = [];
-    if(healthValue <= 0.5) {
-      res.push(1);
-    } 
+    let res = [1];
     
-    if(healthValue > 0.5) {
+    if(healthValue >= 0.51) {
       res.push(1);
     }
 
-    if(healthValue > 1) {
+    if(healthValue >= 1) {
       res.push(1);
     }
 
@@ -55,16 +52,13 @@ export class EatComponent implements OnInit {
   }
 
   calculateNumberHungry(hungryValue : number ) : number[] {
-    let res = [];
-    if(hungryValue <= 12.5) {
-      res.push(1);
-    } 
+    let res = [1];
     
-    if(hungryValue <= 25) {
+    if(hungryValue >= 25) {
       res.push(1);
     }
 
-    if(hungryValue <= 50) {
+    if(hungryValue >= 50) {
       res.push(1);
     }
 

@@ -151,7 +151,6 @@ export class UserService {
     });
   }
 
-
   isUserConnected() : boolean{
     return this.local.get('userFirebaseId');
   }

@@ -26,12 +26,10 @@ export class UserProfileComponent implements OnInit {
     uid: ""
   }
 
-
   constructor(private userService: UserService,
     public afAuth: AngularFireAuth) {
 
   }
-
 
   ngOnInit() {
     if(this.userService.isUserConnected()){
@@ -54,7 +52,6 @@ export class UserProfileComponent implements OnInit {
 
   getUser() {
     this.userService.getCitizien().subscribe((user: Citizien) => {
-      console.log("User profile - user :", user);
       this.citizien = user;
     });
   }
@@ -63,8 +60,6 @@ export class UserProfileComponent implements OnInit {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then((firebaseUser) => {
       if (firebaseUser.additionalUserInfo.isNewUser) {
         this.userOptions.uid = firebaseUser.user.uid;
-        console.log('user', this.userOptions)
-
 
           this.userService.createUserInDatabase(this.userOptions).then(() => {
             this.getUser();
@@ -77,8 +72,6 @@ export class UserProfileComponent implements OnInit {
     this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider()).then((firebaseUser) => {
       if (firebaseUser.additionalUserInfo.isNewUser) {
         this.userOptions.uid = firebaseUser.user.uid;
-        console.log('user', this.userOptions)
-
 
           this.userService.createUserInDatabase(this.userOptions).then(() => {
             this.getUser();

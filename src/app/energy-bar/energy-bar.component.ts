@@ -16,7 +16,6 @@ export class EnergyBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   get energyObs(): Observable<Energy> {
     return this.energyService.getEnergy();
   }

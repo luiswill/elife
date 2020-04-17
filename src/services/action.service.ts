@@ -14,13 +14,9 @@ export class ActionService {
     return new Promise((resolve) => {
       let actionsFiltered = [];
 
-      console.log("Filtering actions ..");
-      
-
       this.afs.collection(actionDirectory).ref.where("ageAvailable", "<=", citizien.age.years).get().then((actionsData) => {
         actionsData.forEach((action) => {
 
-          
           if (this.userService.isCitizienRespectingCharacteristicRequirements(citizien, action.data().conditions)) {
             
             if(action.data().ageFinished > citizien.age.years) {
@@ -29,7 +25,6 @@ export class ActionService {
           }
         })
 
-        // all filtered
         resolve(actionsFiltered);
       }).catch((error) => {
         console.log('Error', error);

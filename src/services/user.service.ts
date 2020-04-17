@@ -13,7 +13,6 @@ import { Action } from 'src/interfaces/Action.interface';
 import { DialogLevelComponent } from 'src/app/dialogs/dialog-level.component';
 import { MatDialog } from '@angular/material/dialog';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -57,15 +56,11 @@ export class UserService {
   applyEffectsFromAction(action: Action, citizien: Citizien) {
     return new Promise((resolve, reject) => {
 
-      console.log("Action to apply ", action);
-      
       let updatedCitizien = citizien;
 
       for (let [charactersticName, characteristicValue] of Object.entries(action.effects)) {
         updatedCitizien.characteristics[charactersticName] += characteristicValue;
       }
-
-      console.log("Updated citizien : ", updatedCitizien);
 
       this.updateCitizien(updatedCitizien).then(() => {
         resolve()
@@ -107,7 +102,6 @@ export class UserService {
         unlockedLevels.push(action.data()['name']);        
       });
       
-
       this.dialog.open(DialogLevelComponent, {
         data: {
           unlocked: unlockedLevels
@@ -157,7 +151,6 @@ export class UserService {
 
   getCitizien() {
     var userId = this.local.get('userFirebaseId');
-    console.log("user id ", userId);
 
     return this.afs.collection('users').doc(userId).valueChanges();
   }

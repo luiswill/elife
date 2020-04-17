@@ -27,7 +27,6 @@ export class DailyActionsComponent implements OnInit {
     private actionService: ActionService,
     private snackBar: MatSnackBar,
     private energyService: EnergyService,) {
-
   }
 
   ngOnInit() {
@@ -37,7 +36,6 @@ export class DailyActionsComponent implements OnInit {
       });
     }
   }
-
 
   loadCitizien() {
     return new Promise((resolve) => {
@@ -87,7 +85,6 @@ export class DailyActionsComponent implements OnInit {
       }
     });
   }
-
 
   isNegative(actionValue : number ) : boolean {
     return actionValue < 0;

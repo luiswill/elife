@@ -17,7 +17,6 @@ export class LifecycleService {
   private lifecycle: Subject<boolean> = new Subject<boolean>();
   lifecycleObs: Observable<boolean> = this.lifecycle.asObservable();
 
-
   constructor() {
     this.startLifecycle();
   }
@@ -39,7 +38,4 @@ export class LifecycleService {
 
     }, this.oneLifecycleDurationInMilliseconds);
   }
-
-
-
 }

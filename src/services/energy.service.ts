@@ -16,17 +16,14 @@ export class EnergyService {
 
   private mEnergy = new BehaviorSubject<Energy>(this.startingEnergy);
 
-
   constructor(private lifecycleService : LifecycleService,
               private userService: UserService) { 
-
   }
 
   isEnergyBarIsFull() : boolean {
     let latestElementIndex = this.mEnergy.getValue().energyBar.length - 1;
     return this.mEnergy.getValue().energyBar[latestElementIndex];
   }
-
 
   hasEnoughEnergy() : boolean {
     return this.mEnergy.getValue().energyBar[0];
@@ -36,7 +33,6 @@ export class EnergyService {
     let newObject =  this.mEnergy.getValue();
     newObject.currentEnergyBarIndex--;
     newObject.energyBar[newObject.currentEnergyBarIndex] = false;
-
 
     this.mEnergy.next(newObject);
   }

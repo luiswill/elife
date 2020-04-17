@@ -9,7 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class UserDashboardComponent implements OnInit {
 
-  isConnected: boolean;
+  isConnected: boolean = false;
 
 
   constructor(private userService: UserService,
@@ -17,7 +17,9 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.isConnected = this.userService.isUserConnected();
+    this.isConnected = this.userService.isUserConnected() ? true : false;
+    console.log("Is user connected ", this.isConnected);
+    
 
     this.userService.getUserFromFirebase().subscribe((user) => {
       console.log("User dashboard : ", user);
@@ -25,6 +27,9 @@ export class UserDashboardComponent implements OnInit {
       if(user) {
         this.isConnected = true;
       }
+
+      console.log("is connected no ", this.isConnected);
+      
       
     });
 

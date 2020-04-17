@@ -18,6 +18,9 @@
             <a mat-list-item routerLink="/actions/eat" (click)="close()"><i class="material-icons">
                     fastfood
                 </i>Eat</a>
+            <a mat-list-item routerLink="/tutorial" (click)="close()"><i class="material-icons">
+                    help
+                </i>Tutorial</a>
             <a mat-list-item routerLink="/about" (click)="close()"><i class="material-icons">
                     info
                 </i>About</a>
@@ -32,7 +35,9 @@
 
         <app-user-dashboard></app-user-dashboard>
 
-        <router-outlet></router-outlet>
+        <router-outlet>
+        </router-outlet>
+
 
     </mat-sidenav-content>
 </mat-sidenav-container>
